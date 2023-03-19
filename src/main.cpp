@@ -72,7 +72,6 @@ void loadProgramFromFile(std::string filePath) {
     };
   }
   f.close();
-  std::cout << "Program Size: " << program.size() << "\n";
 };
 
 void runProgram() {
@@ -107,8 +106,18 @@ void runProgram() {
   };
 };
 
+void usage() {
+  std::cout << "Usage: vmomo <input> \n";
+  exit(0);
+}
+
 int main(int argc, const char **argv) {
-  loadProgramFromFile("prog.momo");
+  if (argc == 1) {
+    usage();
+  };
+  std::string program = argv[0];
+  std::string input = argv[1];
+  loadProgramFromFile(input);
   runProgram();
   return 0;
 }

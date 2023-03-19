@@ -1,8 +1,8 @@
-workspace "VM"
+workspace "vmomo"
     configurations {"Debug", "Release"}
     location "build"
 
-project "VM"
+project "vmomo"
     kind "ConsoleApp"
     language "C++"
     architecture "x64"
