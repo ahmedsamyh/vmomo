@@ -17,37 +17,14 @@
   std::cerr << __FILE__ << ":" << __LINE__ << ":0 Unreachable!\n";             \
   exit(1);
 
-enum class InstType { PUSH, ADD, SUB, PRINT };
-
 struct Inst {
-  InstType type;
+  enum class Type { PUSH, ADD, SUB, MULT, DIV, PRINT };
+  Type type;
   int operand;
 };
 
 std::vector<Inst> program;
 std::stack<int> stack;
-
-std::string toLower(std::string str) {
-  std::string res;
-  for (size_t i = 0; i < str.size(); ++i) {
-    res.push_back(tolower(str[i]));
-  };
-  return res;
-};
-std::string toUpper(std::string str) {
-  std::string res;
-  for (size_t i = 0; i < str.size(); ++i) {
-    res.push_back(toupper(str[i]));
-  };
-  return res;
-};
-bool isAlNum(const std::string &str) {
-  for (auto &c : str) {
-    if (!isalnum(c))
-      return false;
-  };
-  return true;
-};
 
 void loadProgramFromFile(std::string filePath) {
   std::ifstream f(filePath);
@@ -58,16 +35,22 @@ void loadProgramFromFile(std::string filePath) {
       std::stringstream ss(line);
 
       std::string word;
+
+      // lex
       while (ss >> word) {
         word = toLower(word);
         if (word == "+") {
-          program.push_back(Inst{InstType::ADD});
+          program.push_back(Inst{Inst::Type::ADD});
         } else if (word == "-") {
-          program.push_back(Inst{InstType::SUB});
+          program.push_back(Inst{Inst::Type::SUB});
+        } else if (word == "*") {
+          program.push_back(Inst{Inst::Type::MULT});
+        } else if (word == "/") {
+          program.push_back(Inst{Inst::Type::DIV});
         } else if (word == "print") {
-          program.push_back(Inst{InstType::PRINT});
+          program.push_back(Inst{Inst::Type::PRINT});
         } else if (isAlNum(word)) {
-          program.push_back(Inst{InstType::PUSH, atoi(word.c_str())});
+          program.push_back(Inst{Inst::Type::PUSH, atoi(word.c_str())});
         };
       }
     };
@@ -79,24 +62,38 @@ void runProgram() {
   for (size_t ip = 0; ip < program.size(); ++ip) {
     Inst &inst = program[ip];
     switch (program[ip].type) {
-    case InstType::PUSH:
+    case Inst::Type::PUSH:
       stack.push(inst.operand);
       break;
-    case InstType::ADD: {
+    case Inst::Type::ADD: {
       int a = stack.top();
       stack.pop();
       int b = stack.top();
       stack.pop();
       stack.push(a + b);
     } break;
-    case InstType::SUB: {
+    case Inst::Type::SUB: {
       int a = stack.top();
       stack.pop();
       int b = stack.top();
       stack.pop();
       stack.push(b - a);
     } break;
-    case InstType::PRINT:
+    case Inst::Type::MULT: {
+      int a = stack.top();
+      stack.pop();
+      int b = stack.top();
+      stack.pop();
+      stack.push(b * a);
+    } break;
+    case Inst::Type::DIV: {
+      int a = stack.top();
+      stack.pop();
+      int b = stack.top();
+      stack.pop();
+      stack.push(b / a);
+    } break;
+    case Inst::Type::PRINT:
       std::cout << stack.top() << "\n";
       stack.pop();
       break;
