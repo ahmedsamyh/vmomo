@@ -4,7 +4,8 @@
 #include <stack>
 #include <string>
 #include <vector>
-
+#define MOMOSTR_IMPLEMENTATION
+#include ".\momostr.hpp"
 #define assert(expr)                                                           \
   if (!(expr)) {                                                               \
     std::cerr << __FILE__ << ":" << __LINE__ << ":0 Assertion Failed: " #expr  \
