@@ -3,11 +3,17 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-namespace momo {
 
+typedef int word;
+
+enum REG { RAX = 0, RBX, RCX, RDX, RSI, RDI, RBP, RSP, RIP, REG_COUNT };
+
+//////////////////////////////////////////////////
+namespace momo {
 #define LOC __FILE__ << ":" << __LINE__ << ":0 "
 #define UNREACHABLE() std::cerr << LOC << "Unreachable!\n";
 #define UNIMPLEMENTED(msg) std::cerr << LOC << msg << " is unimplemented!\n";
+#define PRINT_VAR(var) std::cout << #var << " = " << var << "\n"
 
 #define TYPE_AS_CSTR(type) #type
 
