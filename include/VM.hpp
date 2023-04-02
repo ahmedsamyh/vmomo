@@ -1,26 +1,26 @@
 #pragma once
 #include <MomoCommon.hpp>
 #include <common.hpp>
+#include <vector>
 
 #define REG(id) registers[id]
-#define PROG_CAP 1024 * 1
-#define MEM_CAP 1024 * 2
+#define PROG_CAP 1024
+#define MEM_CAP 1024
 
 struct VM {
   // running state of machine
   bool running = true;
 
   // array of registers
-  word *registers = nullptr;
+  std::vector<word> registers;
   // array of words that hold the program
-  word *program = nullptr;
+  std::vector<word> program;
   size_t programSize = 0;
   // array of words that hold the memory
-  word *memory = nullptr;
+  std::vector<word> memory;
   size_t memorySize = 0;
 
   /// MAIN
-  ~VM();
   void init();
   void run();
   void decodeAndExecute();

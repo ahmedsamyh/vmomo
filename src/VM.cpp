@@ -2,19 +2,21 @@
 #include <common.hpp>
 
 void VM::init() {
-  registers = new word(REG_COUNT);
-  program = new word(PROG_CAP);
-  memory = new word(MEM_CAP);
-};
+  registers.resize(REG_COUNT);
 
-VM::~VM() { delete[] registers; };
+  for (size_t i = 0; i < REG_COUNT; ++i) {
+    REG(i) = 0;
+  };
+
+  program.resize(PROG_CAP);
+  memory.resize(MEM_CAP);
+};
 
 void VM::run() {
   while (running && REG(RIP) < programSize) {
     // execute program
     decodeAndExecute();
   };
-
   std::cout << "VM ran!\n";
 };
 
