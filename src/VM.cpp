@@ -135,8 +135,24 @@ void VM::decodeAndExecute() {
 #ifdef DEBUG
     std::cout << "JMP, " << addr << "\n";
 #endif
-
   } break;
+
+  case XCHG: {
+    // syntax: XCHG, reg1, reg2
+    // Exchanges reg1's and reg2's value
+    word reg1 = get();
+    word reg2 = get();
+    checkValid(reg1);
+    checkValid(reg2);
+
+#ifdef DEBUG
+    std::cout << "XCHG, " << strFromRegID(reg1) << "<->" << strFromRegID(reg2)
+              << "\n";
+#endif
+    const word tmp = REG(reg1);
+    REG(reg1) = REG(reg2);
+    REG(reg2) = tmp;
+  }; break;
 
   case PEND:
     // syntax: PEND

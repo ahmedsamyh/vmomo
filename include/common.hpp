@@ -15,6 +15,7 @@ enum opCode {
   MULT,    // MULT same as ADD but multiplication
   DIV,     // DIV same as ADD but divition
   JMP,     // JMP addr, jumps to an absolute address in the program
+  XCHG,    // XCHG reg1, reg2 exchanges the value of reg1 and reg2
   PEND,    // PEND ends the execution of the program
 };
 

@@ -23,17 +23,9 @@ void dummyLoadProgram(VM *vm) {
   X(RBX);
 
   // exchange rax and rbx
-  X(MOVR);
+  X(XCHG);
   X(RAX);
-  X(RCX); // rcx(temp) = rax;
-
-  X(MOVR);
   X(RBX);
-  X(RAX); // rax = rbx;
-
-  X(MOVR);
-  X(RCX);
-  X(RBX); // rbx = rcx(temp)
 
   X(JMP);
   X(6);
