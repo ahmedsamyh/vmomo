@@ -21,11 +21,11 @@ My Custom Virtual Machine with my own Assembly.
 
 ## Quick Start
 ```console
-premake5 vs2022
-msbuild -p:configuration<Debug|Release> build\vsmomo.sln
-bin\<config>\vsmomo.exe
+$ premake5 vs2022
+$ msbuild -p:configuration<Debug|Release> build\vsmomo.sln
+$ bin\<config>\vsmomo.exe
 ```
-You can also open the vs solution file directly and build with Visual Studio.
+You can also open the VS solution file (.sln) directly and build with Visual Studio<s>(If you want to wait for eternally )</s> and build it (is doing the same thing).
 
 ## Dependencies
 - [premake5 (version 5.0.0-beta2 and up)](https://github.com/premake/premake-core/releases/download/v5.0.0-beta2/premake-5.0.0-beta2-windows.zip)
