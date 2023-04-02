@@ -28,6 +28,7 @@ void VM::decodeAndExecute() {
     std::cout << "NOP\n";
 #endif
     break;
+
   case MOV: {
     // syntax: MOV, src, dst
     // moves the src to dst
@@ -39,6 +40,7 @@ void VM::decodeAndExecute() {
     std::cout << "MOV, " << src << ", " << strFromRegID(dst) << "\n";
 #endif
   } break;
+
   case MOVR: {
     // syntax: MOVR src, dst
     // same as MOV but with registers
@@ -52,42 +54,65 @@ void VM::decodeAndExecute() {
               << "\n";
 #endif
   } break;
+
   case ADD: {
-    // syntax: ADD
-    // Adds the value of rax and rbx (rax + rbx) and puts the answer in rax
+    // syntax: ADD reg1, reg2
+    // Adds the value of reg1 and reg2 (reg1 + reg2) and puts the answer in rax
+    word reg1 = get();
+    word reg2 = get();
+    checkValid(reg1);
+    checkValid(reg2);
 #ifdef DEBUG
-    std::cout << "ADD: " << REG(RAX) << " + " << REG(RBX) << "\n";
+    std::cout << "ADD: " << REG(reg1) << " + " << REG(reg2) << "\n";
 #endif
-    REG(RAX) = REG(RAX) + REG(RBX);
+    REG(RAX) = REG(reg1) + REG(reg2);
   } break;
+
   case SUB: {
-    // syntax: SUB
-    // Subtracts the value of rbx from rax (rax - rbx) and puts the answer in
-    // rax
+    // syntax: SUB reg1, reg2
+    // Subtracts the value of reg2 from reg1 (reg1 - reg2) and puts the answer
+    // in rax
+    word reg1 = get();
+    word reg2 = get();
+    checkValid(reg1);
+    checkValid(reg2);
 #ifdef DEBUG
-    std::cout << "SUB: " << REG(RAX) << " - " << REG(RBX) << "\n";
+    std::cout << "SUB: " << REG(reg1) << " - " << REG(reg2) << "\n";
 #endif
-    REG(RAX) = REG(RAX) - REG(RBX);
+    REG(RAX) = REG(reg1) - REG(reg2);
   } break;
+
   case MULT: {
-    // syntax: MULT
-    // Multiplies the value of rax and rbx (rax * rbx) and puts the answer in
-    // rax
+    // syntax: MULT reg1, reg2
+    // Multiplies the value of reg1 and reg2 (reg1 * reg2) and puts the answer
+    // in rax
+    word reg1 = get();
+    word reg2 = get();
+    checkValid(reg1);
+    checkValid(reg2);
 #ifdef DEBUG
-    std::cout << "MULT: " << REG(RAX) << " * " << REG(RBX) << "\n";
+    std::cout << "MULT: " << REG(reg1) << " * " << REG(reg2) << "\n";
 #endif
-    REG(RAX) = REG(RAX) * REG(RBX);
+    REG(RAX) = REG(reg1) * REG(reg2);
   } break;
+
   case DIV: {
-    // syntax: DIV
-    // Divides the value of rbx from rax (rax / rbx) and puts the answer in
+    // syntax: DIV reg1, reg2
+    // Divides the value of reg2 from reg1 (reg1 / reg2) and puts the answer in
     // rax
+    word reg1 = get();
+    word reg2 = get();
+    checkValid(reg1);
+    checkValid(reg2);
 #ifdef DEBUG
-    std::cout << "DIV: " << REG(RAX) << " / " << REG(RBX) << "\n";
+    std::cout << "DIV: " << REG(reg1) << " / " << REG(reg2) << "\n";
 #endif
-    // TODO: Handle divide by zero
-    REG(RAX) = REG(RAX) / REG(RBX);
+    if (REG(reg2) == 0) {
+      momo::err("Division by zero!");
+    };
+    REG(RAX) = REG(reg1) / REG(reg2);
   } break;
+
   case PRINT: {
 // syntax: PRINT, reg
 // prints the value of the register
@@ -98,6 +123,7 @@ void VM::decodeAndExecute() {
     checkValid(reg_id);
     std::cout << strFromRegID(reg_id) << " = " << REG(reg_id) << "\n";
   } break;
+
   case JMP: {
     // syntax: JMP, addr
     // jumps to the specified address (absolute)
@@ -111,6 +137,7 @@ void VM::decodeAndExecute() {
 #endif
 
   } break;
+
   case PEND:
     // syntax: PEND
     // ends the execution of program
@@ -119,6 +146,7 @@ void VM::decodeAndExecute() {
 #endif
     running = false;
     break;
+
   default:
     UNREACHABLE();
     break;

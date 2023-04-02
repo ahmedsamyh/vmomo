@@ -10,7 +10,7 @@ enum opCode {
   MOV,     // MOV src, dst where src is an immediate value and dst is a register
   MOVR,    // MOVR src, dst where both src and dst are registers
   PRINT,   // PRINT reg, prints the value of reg to stdout
-  ADD,     // ADD sums rax and rbx and puts the answer in rax
+  ADD,     // ADD reg1, reg2 sums reg1 and reg2 and puts the answer in rax
   SUB,     // SUB same as ADD but substraction
   MULT,    // MULT same as ADD but multiplication
   DIV,     // DIV same as ADD but divition
