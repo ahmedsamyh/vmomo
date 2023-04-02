@@ -3,20 +3,36 @@
 
 #include <VM.hpp>
 
+// TODO: Add XCHG OpCode (exchange two register's values)
+// TODO: ADD OpCode accepts two registers to add and store in rax
 void dummyLoadProgram(VM *vm) {
 #define X(op) vm->program[vm->programSize++] = word((op));
+
+  X(MOV);
+  X(0);
+  X(RAX);
+
   X(MOV);
   X(1);
-  X(RAX); // <--- rax = 1
+  X(RBX);
 
-  X(MOV);
-  X(2);
-  X(RBX); // <--- rbx = 2
-
-  X(ADD); // <--- rax = 3
-
-  X(PRINT);
+  X(PRINT); // Jump here
   X(RAX);
+
+  X(ADD); // rax = rax+rbx
+
+  // exchange rax and rbx
+  X(MOVR);
+  X(RAX);
+  X(RCX); // rcx(temp) = rax;
+
+  X(MOVR);
+  X(RBX);
+  X(RAX); // rax = rbx;
+
+  X(MOVR);
+  X(RCX);
+  X(RBX); // rbx = rcx(temp)
 
   X(JMP);
   X(6);
