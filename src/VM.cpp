@@ -39,6 +39,19 @@ void VM::decodeAndExecute() {
     std::cout << "MOV, " << src << ", " << strFromRegID(dst) << "\n";
 #endif
   } break;
+  case MOVR: {
+    // syntax: MOVR src, dst
+    // same as MOV but with registers
+    word src = get();
+    word dst = get();
+    checkValid(src);
+    checkValid(dst);
+    REG(dst) = REG(src);
+#ifdef DEBUG
+    std::cout << "MOVR, " << strFromRegID(src) << ", " << strFromRegID(dst)
+              << "\n";
+#endif
+  } break;
   case ADD: {
     // syntax: ADD
     // Adds the value of rax and rbx (rax + rbx) and puts the answer in rax
@@ -72,8 +85,8 @@ void VM::decodeAndExecute() {
 #ifdef DEBUG
     std::cout << "DIV: " << REG(RAX) << " / " << REG(RBX) << "\n";
 #endif
+    // TODO: Handle divide by zero
     REG(RAX) = REG(RAX) / REG(RBX);
-
   } break;
   case PRINT: {
 // syntax: PRINT, reg
