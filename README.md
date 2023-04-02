@@ -6,7 +6,7 @@ My Custom Virtual Machine with my own Assembly.
 *Only Works on Windows!!!*
 
 ## OpCodes
-- NOP
+- NOP         : Doesn't do anything.
 - MOV src dst : Moves value of src to dst{Registers only}.
 - ADD         : Add rax and rbx and stores the sum in rax.
 - PRINT reg   : prints the value of reg to stdout.
