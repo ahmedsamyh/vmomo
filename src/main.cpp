@@ -1,20 +1,23 @@
-#include <format>
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <stack>
-#include <vector>
+#define MOMO_COMMON_IMPLEMENTATION
+#include <MomoCommon.hpp>
 
-#define MOMOSTR_IMPLEMENTATION
-#include <momostr.hpp>
+#include <VM.hpp>
 
-#define COMMON_IMPLEMENTATION
-#include <common.hpp>
+void dummyLoadProgram(VM *vm) {
+#define X(op) vm->program[vm->programSize++] = word((op));
+  X(MOV);
+  X(1);
+  X(vm->REG(RAX));
+  X(MOV);
+  X(9);
+  X(vm->REG(RBX));
+  X(PEND);
+};
 
 int main(int argc, const char **argv) {
   VM vm;
   vm.init();
-  vm.dummyLoadProgram();
+  dummyLoadProgram(&vm);
   vm.run();
   return 0;
 }

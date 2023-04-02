@@ -1,30 +1,25 @@
 #pragma once
-#include <Register.hpp>
+#include <MomoCommon.hpp>
 #include <common.hpp>
-#include <vector>
 
 #define REG(id) registers[id]
+#define PROG_CAP 1024 * 1
+#define MEM_CAP 1024 * 2
 
 struct VM {
-  const size_t PROGRAM_MEM_CAP = 1024 * 2;
-
-  // array of registers
-  Register *registers = nullptr;
-
-  // every opcode
-  enum opCode { NOP = 0, MOV, PRINT, ADD, PEND };
-
   // running state of machine
   bool running = true;
 
-  // array of words that hold the program and memory
-  std::vector<word> progMem;
-
-  /// TEMP
-  void dummyLoadProgram();
+  // array of registers
+  word *registers = nullptr;
+  // array of words that hold the program
+  word *program = nullptr;
+  size_t programSize = 0;
+  // array of words that hold the memory
+  word *memory = nullptr;
+  size_t memorySize = 0;
 
   /// MAIN
-  VM();
   ~VM();
   void init();
   void run();
@@ -33,5 +28,5 @@ struct VM {
   /// UTILITY
   // eats the word at rip and increments rip
   word get();
-  void setReg(word id, word val);
+  void checkValid(word id);
 };
