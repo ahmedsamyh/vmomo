@@ -9,6 +9,9 @@ My Custom Virtual Machine with my own Assembly.
 - NOP         : Doesn't do anything.
 - MOV src dst : Moves value of src to dst{Registers only}.
 - ADD         : Add rax and rbx and stores the sum in rax.
+- SUB         : Same as ADD but subtracts.
+- MULT         : Same as ADD but multiplies.
+- DIV         : Same as ADD but divides.
 - PRINT reg   : prints the value of reg to stdout.
 - PEND        : stops the execution of the program.
 
