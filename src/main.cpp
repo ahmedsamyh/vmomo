@@ -6,26 +6,20 @@
 void dummyLoadProgram(VM *vm) {
 #define X(op) vm->program[vm->programSize++] = word((op));
   X(MOV);
-  X(10);
-  X(RAX);
+  X(1);
+  X(RAX); // <--- rax = 1
 
   X(MOV);
-  X(5);
-  X(RBX);
+  X(2);
+  X(RBX); // <--- rbx = 2
 
-  X(MULT);
+  X(ADD); // <--- rax = 3
 
   X(PRINT);
   X(RAX);
 
-  X(MOV);
-  X(5);
-  X(RBX);
-
-  X(DIV);
-
-  X(PRINT);
-  X(RAX);
+  X(JMP);
+  X(6);
 
   X(PEND);
 };

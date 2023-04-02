@@ -85,6 +85,19 @@ void VM::decodeAndExecute() {
     checkValid(reg_id);
     std::cout << strFromRegID(reg_id) << " = " << REG(reg_id) << "\n";
   } break;
+  case JMP: {
+    // syntax: JMP, addr
+    // jumps to the specified address (absolute)
+    word addr = get();
+    if (addr < 0 || addr >= programSize) {
+      momo::err("Jump Address invalid!\n");
+    };
+    REG(RIP) = addr;
+#ifdef DEBUG
+    std::cout << "JMP, " << addr << "\n";
+#endif
+
+  } break;
   case PEND:
     // syntax: PEND
     // ends the execution of program
