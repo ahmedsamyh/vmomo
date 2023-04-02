@@ -47,6 +47,15 @@ void VM::decodeAndExecute() {
 #endif
     REG(RAX) = REG(RAX) + REG(RBX);
   } break;
+  case SUB: {
+    // syntax: SUBB
+    // Subtracts the value of rbx from rax (rax - rbx) and puts the answer in
+    // rax
+#ifdef DEBUG
+    std::cout << "SUB: " << REG(RAX) << " - " << REG(RBX) << "\n";
+#endif
+    REG(RAX) = REG(RAX) - REG(RBX);
+  } break;
   case PRINT: {
 // syntax: PRINT, reg
 // prints the value of the register
