@@ -48,11 +48,14 @@ void VM::decodeAndExecute() {
     REG(RAX) = REG(RAX) + REG(RBX);
   } break;
   case PRINT: {
-    // syntax: PRINT, reg
-    // prints the value of the register
+// syntax: PRINT, reg
+// prints the value of the register
+#ifdef DEBUG
+    std::cout << "PRINT: ";
+#endif
     word reg_id = get();
     checkValid(reg_id);
-    std::cout << strFromRegID(reg_id) << " : " << REG(reg_id) << "\n";
+    std::cout << strFromRegID(reg_id) << " = " << REG(reg_id) << "\n";
   } break;
   case PEND:
     // syntax: PEND
