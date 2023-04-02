@@ -18,6 +18,15 @@ void dummyLoadProgram(VM *vm) {
   X(PRINT);
   X(RAX);
 
+  X(MOV);
+  X(5);
+  X(RBX);
+
+  X(DIV);
+
+  X(PRINT);
+  X(RAX);
+
   X(PEND);
 };
 

@@ -58,12 +58,22 @@ void VM::decodeAndExecute() {
   } break;
   case MULT: {
     // syntax: MULT
-    // Multiplies the value of rbx and rax (rax * rbx) and puts the answer in
+    // Multiplies the value of rax and rbx (rax * rbx) and puts the answer in
     // rax
 #ifdef DEBUG
     std::cout << "MULT: " << REG(RAX) << " * " << REG(RBX) << "\n";
 #endif
     REG(RAX) = REG(RAX) * REG(RBX);
+  } break;
+  case DIV: {
+    // syntax: DIV
+    // Divides the value of rbx from rax (rax / rbx) and puts the answer in
+    // rax
+#ifdef DEBUG
+    std::cout << "DIV: " << REG(RAX) << " / " << REG(RBX) << "\n";
+#endif
+    REG(RAX) = REG(RAX) / REG(RBX);
+
   } break;
   case PRINT: {
 // syntax: PRINT, reg
