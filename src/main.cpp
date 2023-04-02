@@ -1,101 +1,46 @@
+#include <format>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <stack>
-#include <string>
 #include <vector>
+
 #define MOMOSTR_IMPLEMENTATION
-#include ".\momostr.hpp"
-#define assert(expr)                                                           \
-  if (!(expr)) {                                                               \
-    std::cerr << __FILE__ << ":" << __LINE__ << ":0 Assertion Failed: " #expr  \
-              << "\n";                                                         \
-    exit(1);                                                                   \
-  }
+#include "./momostr.hpp"
 
-#define UNREACHABLE()                                                          \
-  std::cerr << __FILE__ << ":" << __LINE__ << ":0 Unreachable!\n";             \
-  exit(1);
+#define COMMON_IMPLEMENTATION
+#include "./common.hpp"
 
-struct Inst {
-  enum class Type { PUSH, ADD, SUB, MULT, DIV, PRINT };
-  Type type;
-  int operand;
-};
+struct VM {
+  typedef int32_t word;
+  // registers
+  word rax, rbx, rcx, rdx, rsi, rdi, rbp, rsp, rip;
+  enum opCode { NOP = 0, MOV, PEND };
 
-std::vector<Inst> program;
-std::stack<int> stack;
+  // array of words that hold the program and memory
+  std::vector<word> progMem;
 
-void loadProgramFromFile(std::string filePath) {
-  std::ifstream f(filePath);
-  if (f) {
-    while (!f.eof()) {
-      std::string line;
-      std::getline(f, line);
-      std::stringstream ss(line);
-
-      std::string word;
-
-      // lex
-      while (ss >> word) {
-        word = toLower(word);
-        if (word == "+") {
-          program.push_back(Inst{Inst::Type::ADD});
-        } else if (word == "-") {
-          program.push_back(Inst{Inst::Type::SUB});
-        } else if (word == "*") {
-          program.push_back(Inst{Inst::Type::MULT});
-        } else if (word == "/") {
-          program.push_back(Inst{Inst::Type::DIV});
-        } else if (word == "print") {
-          program.push_back(Inst{Inst::Type::PRINT});
-        } else if (isAlNum(word)) {
-          program.push_back(Inst{Inst::Type::PUSH, atoi(word.c_str())});
-        };
-      }
+  void boot() {
+    rip = 0;
+    for (size_t i = 0; i < progMem.size(); ++i) {
+      rip = i;
+      if (progMem[i] != PEND) {
+        // execute program
+        word op = progMem[i];
+        decode(op);
+      };
     };
-  }
-  f.close();
-};
+  };
 
-void runProgram() {
-  for (size_t ip = 0; ip < program.size(); ++ip) {
-    Inst &inst = program[ip];
-    switch (program[ip].type) {
-    case Inst::Type::PUSH:
-      stack.push(inst.operand);
+  void decode(word op) {
+    switch (op) {
+    case NOP:
       break;
-    case Inst::Type::ADD: {
-      int a = stack.top();
-      stack.pop();
-      int b = stack.top();
-      stack.pop();
-      stack.push(a + b);
-    } break;
-    case Inst::Type::SUB: {
-      int a = stack.top();
-      stack.pop();
-      int b = stack.top();
-      stack.pop();
-      stack.push(b - a);
-    } break;
-    case Inst::Type::MULT: {
-      int a = stack.top();
-      stack.pop();
-      int b = stack.top();
-      stack.pop();
-      stack.push(b * a);
-    } break;
-    case Inst::Type::DIV: {
-      int a = stack.top();
-      stack.pop();
-      int b = stack.top();
-      stack.pop();
-      stack.push(b / a);
-    } break;
-    case Inst::Type::PRINT:
-      std::cout << stack.top() << "\n";
-      stack.pop();
+    case MOV:
+      UNIMPLEMENTED();
+      break;
+    case PEND:
+      UNIMPLEMENTED();
       break;
     default:
       UNREACHABLE();
@@ -104,18 +49,8 @@ void runProgram() {
   };
 };
 
-void usage() {
-  std::cout << "Usage: vmomo <input> \n";
-  exit(0);
-}
-
 int main(int argc, const char **argv) {
-  if (argc == 1) {
-    usage();
-  };
-  std::string program = argv[0];
-  std::string input = argv[1];
-  loadProgramFromFile(input);
-  runProgram();
+  VM vm;
+  vm.boot();
   return 0;
 }
