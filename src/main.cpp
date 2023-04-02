@@ -13,7 +13,7 @@ void dummyLoadProgram(VM *vm) {
   X(5);
   X(RBX);
 
-  X(SUB);
+  X(MULT);
 
   X(PRINT);
   X(RAX);

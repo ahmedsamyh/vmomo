@@ -41,20 +41,29 @@ void VM::decodeAndExecute() {
   } break;
   case ADD: {
     // syntax: ADD
-    // Adds the value of rax and rbx and puts the answer in rax
+    // Adds the value of rax and rbx (rax + rbx) and puts the answer in rax
 #ifdef DEBUG
     std::cout << "ADD: " << REG(RAX) << " + " << REG(RBX) << "\n";
 #endif
     REG(RAX) = REG(RAX) + REG(RBX);
   } break;
   case SUB: {
-    // syntax: SUBB
+    // syntax: SUB
     // Subtracts the value of rbx from rax (rax - rbx) and puts the answer in
     // rax
 #ifdef DEBUG
     std::cout << "SUB: " << REG(RAX) << " - " << REG(RBX) << "\n";
 #endif
     REG(RAX) = REG(RAX) - REG(RBX);
+  } break;
+  case MULT: {
+    // syntax: MULT
+    // Multiplies the value of rbx and rax (rax * rbx) and puts the answer in
+    // rax
+#ifdef DEBUG
+    std::cout << "MULT: " << REG(RAX) << " * " << REG(RBX) << "\n";
+#endif
+    REG(RAX) = REG(RAX) * REG(RBX);
   } break;
   case PRINT: {
 // syntax: PRINT, reg
