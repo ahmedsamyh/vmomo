@@ -3,7 +3,6 @@
 
 #include <VM.hpp>
 
-// TODO: Add XCHG OpCode (exchange two register's values)
 void dummyLoadProgram(VM *vm) {
 #define X(op) vm->program[vm->programSize++] = word((op));
 
